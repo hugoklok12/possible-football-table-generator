@@ -1,5 +1,5 @@
 # possible-football-table-generator
-Script that displays all possible changes in the standings table after a played gameweek (currently English Premier League only)
+Script that displays all possible changes in the standings table after a played gameweek (currently English Premier League and Brazilian Série A only)
 
 ## Installation:
 - ```pip install python-dotenv pandas openpyxl```
