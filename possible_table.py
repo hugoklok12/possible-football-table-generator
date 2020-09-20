@@ -4,6 +4,7 @@ import http.client
 import json
 import os
 import itertools  
+import collections
 from dotenv import load_dotenv
 import pandas as pd
 
@@ -56,16 +57,26 @@ def Main():
 
     matchups = get_matchups(matchday, league_id)
     complete_table = get_complete_table(league_id)
-    current_standings = {}
 
     # create dict with only the name and current point count
+    current_standings = {}
     for team in complete_table:
         current_standings[team['team']['name']] = team['points']
+    
+    
+    # sort dict and fill high/low placeholders + current position
+    team_high_lows = {}
+    sorted_standings = sorted(current_standings.items(), key=lambda x: x[1], reverse=True)
+    i = 0
+    for key, team in sorted_standings:
+        team_high_lows[key] = [100, i, -100] # [high, current, low]
+        i = i + 1
 
-    # generate all combinations of wins / draws / losses in 10 games and fill with corresponding integers
+    # generate all combinations of wins / draws / losses in 10 games (= one matchday) and fill with corresponding integers
     all_possible_results = itertools.product(range(3), repeat=10)
     all_possible_tables = []
 
+    print('Calculating all possible tables...')
     # loop through every matchup and calculate points using brute force (n = 3^10 = 59049)
     for results in all_possible_results:
         possible_table = {}
@@ -89,9 +100,39 @@ def Main():
 
         all_possible_tables.append(possible_table)
 
-    # fill excel sheet with all possible tables to enhance debugging
-    pd.DataFrame(all_possible_tables).to_excel('~/Downloads/all_possible_tables.xlsx', header=False, index=False)
+    print('All possible tables created.')
+
+    # fill excel sheet with all possible point counts to enhance debugging
+    print('Creating excel sheet of all possible points...')
+    pd.DataFrame(all_possible_tables).to_excel('~/Downloads/all_possible_points.xlsx', header=False, index=False)
     print('Excel sheet succesfully created')
+
+    # sort all all possible tables
+    print('Sorting all tables and defining high/low per team...')
+    i = 0
+    for possible_table in all_possible_tables:
+        possible_table = sorted(possible_table.items(), key=lambda x: x[1], reverse=True)
+        j = 1
+        for key, table_position in possible_table:
+            # check for new high
+            if j < team_high_lows[key][0]:
+                team_high_lows[key][0] = j
+            # check for new low
+            elif j > team_high_lows[key][2]:
+                team_high_lows[key][2] = j
+            j = j + 1
+        i = i + 1
+    print('Done defining high/low.')
+
+    print('Results:')
+    print("---------------------")
+    for key, high_lows in team_high_lows.items():
+        print("Team: " + str(key))
+        print("Current: " + str(high_lows[1]))
+        print("High: " + str(high_lows[0]))
+        print("Low: " + str(high_lows[2]))
+        print("---------------------")
+    
 
 if __name__ == '__main__':
     Main()
