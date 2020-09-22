@@ -36,12 +36,12 @@ def start_program(arguments):
     return arguments
 
 def get_complete_table(league_id):
-    response = send_request('competitions/' + str(league_id) + '/standings?standingType=HOME')
+    response = send_request(f'competitions/{league_id}/standings?standingType=HOME')
     complete_table = response['standings'][0]['table']
     return complete_table
 
 def get_matchups(matchday, league_id):
-    response = send_request('competitions/' + str(league_id) + '/matches?matchday=' + str(matchday))
+    response = send_request(f'competitions/{league_id}/matches?matchday={matchday}')
     matchday_matches = response['matches']
     matchups = []
     for match in matchday_matches:
@@ -54,7 +54,6 @@ def Main():
     arguments = start_program(arguments)
     matchday = arguments[0]
     league_id = arguments[1]
-
     matchups = get_matchups(matchday, league_id)
     complete_table = get_complete_table(league_id)
 
@@ -97,9 +96,7 @@ def Main():
             else:
                 print('Something went wrong while processing possible tables')
             i = i + 1
-
         all_possible_tables.append(possible_table)
-
     print('All possible tables created.')
 
     # fill excel sheet with all possible point counts to enhance debugging
