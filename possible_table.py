@@ -69,7 +69,7 @@ def Main():
     i = 0
     for key, team in sorted_standings:
         team_high_lows[key] = [100, i, -100] # [high, current, low]
-        i = i + 1
+        i += 1
 
     # generate all combinations of wins / draws / losses in 10 games (= one matchday) and fill with corresponding integers
     all_possible_results = itertools.product(range(3), repeat=10)
@@ -95,7 +95,7 @@ def Main():
                 possible_table[matchups[i][1]] = current_standings[matchups[i][1]] + 1
             else:
                 print('Something went wrong while processing possible tables')
-            i = i + 1
+            i += 1
         all_possible_tables.append(possible_table)
     print('All possible tables created.')
 
@@ -117,8 +117,8 @@ def Main():
             # check for new low
             elif j > team_high_lows[key][2]:
                 team_high_lows[key][2] = j
-            j = j + 1
-        i = i + 1
+            j += 1
+        i += 1
     print('Done defining high/low.')
 
     print('Results:')
