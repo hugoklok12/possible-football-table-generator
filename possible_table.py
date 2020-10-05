@@ -5,6 +5,7 @@ import json
 import os
 import itertools  
 import collections
+import webbrowser
 from dotenv import load_dotenv
 import pandas as pd
 
@@ -101,7 +102,7 @@ def Main():
 
     # fill excel sheet with all possible point counts to enhance debugging
     print('Creating excel sheet of all possible points...')
-    pd.DataFrame(all_possible_tables).to_excel('~/Downloads/all_possible_points.xlsx', header=False, index=False)
+    # pd.DataFrame(all_possible_tables).to_excel('~/Downloads/all_possible_points.xlsx', header=False, index=False)
     print('Excel sheet succesfully created')
 
     # sort all all possible tables
@@ -122,14 +123,22 @@ def Main():
     print('Done defining high/low.')
 
     print('Results:')
-    print("---------------------")
+    print('---------------------')
     for key, high_lows in team_high_lows.items():
-        print("Team: " + str(key))
-        print("Current: " + str(high_lows[1]))
-        print("High: " + str(high_lows[0]))
-        print("Low: " + str(high_lows[2]))
-        print("---------------------")
-    
+        print('Team: ' + str(key))
+        print('Current: ' + str(high_lows[1]))
+        print('High: ' + str(high_lows[0]))
+        print('Low: ' + str(high_lows[2]))
+        print('---------------------')
+
+    # write data to local json file on disk
+    with open('table_data.json', 'w') as json_file:
+        json.dump(team_high_lows, json_file)
+
+    # open html file with possible tables data
+    absolute_path = os.path.dirname(__file__)
+    url = os.path.join(absolute_path, 'index.html')
+    webbrowser.open_new(url)
 
 if __name__ == '__main__':
     Main()
