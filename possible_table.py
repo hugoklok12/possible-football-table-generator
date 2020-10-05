@@ -102,7 +102,7 @@ def Main():
 
     # fill excel sheet with all possible point counts to enhance debugging
     print('Creating excel sheet of all possible points...')
-    # pd.DataFrame(all_possible_tables).to_excel('~/Downloads/all_possible_points.xlsx', header=False, index=False)
+    pd.DataFrame(all_possible_tables).to_excel('~/Downloads/all_possible_points.xlsx', header=False, index=False)
     print('Excel sheet succesfully created')
 
     # sort all all possible tables
@@ -132,8 +132,8 @@ def Main():
         print('---------------------')
 
     # write data to local json file on disk
-    with open('table_data.json', 'w') as json_file:
-        json.dump(team_high_lows, json_file)
+    with open('table_data.json', 'w', encoding='utf-8') as f:
+        json.dump(team_high_lows, f, ensure_ascii=False, indent=4)
 
     # open html file with possible tables data
     absolute_path = os.path.dirname(__file__)
