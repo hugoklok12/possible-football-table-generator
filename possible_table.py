@@ -102,7 +102,7 @@ def Main():
 
     # fill excel sheet with all possible point counts to enhance debugging
     print('Creating excel sheet of all possible points...')
-    pd.DataFrame(all_possible_tables).to_excel('~/Downloads/all_possible_points.xlsx', header=False, index=False)
+    # pd.DataFrame(all_possible_tables).to_excel('~/Downloads/all_possible_points.xlsx', header=False, index=False)
     print('Excel sheet succesfully created')
 
     # sort all all possible tables
