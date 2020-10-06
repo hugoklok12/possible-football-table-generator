@@ -4,10 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Possible Table</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,500;1,900&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Possible Table</h1>
+    <div class="main-container">
+        <div class="sidebar"></div>
+        <div class="container">
+            <div class="header-text">
+                <h1 class="header-text__text">Settings</h1>
+                <div class="header-text__input">
+                    <input class="input" type="number" placeholder="Choose a league">
+                    <input class="input" type="number" placeholder="Choose a matchday"> 
+                </div>
+                <div class="button">
+                    <span>View Table</span>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="{{ url_for('static', filename='script.js', type='text/javascript') }}"></script>
 </body>
 </html>
