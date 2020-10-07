@@ -17,11 +17,11 @@ h1 {
     font-size: 1.5rem;
 }
 
-.background {
-    position: absolute;
+.background-diagonal {
+    position: fixed;
     height: 100vh;
     width: 100vw;
-    clip-path: polygon(56% 0, 100% 0, 100% 100%, 23% 100%);
+    clip-path: polygon(40% 0, 100% 0, 100% 100%, 16% 99%);
     background-color: #f0f0f0;
     z-index: -1;
 }
@@ -33,7 +33,7 @@ h1 {
     width: 100vw;
 }
 
-.sidebar {
+.sidebar-left {
     margin-top: 10rem;
     position: relative;
     display: flex;
@@ -44,11 +44,22 @@ h1 {
     width: 30vw;
 }
 
-.container {
+.sidebar-right {
+    margin: 8rem 15rem;
+    height: 80%;
+    width: 50%;
+    background-color: #f0f0f0;
+    border-radius: 2%;
+    box-shadow: -10px -10px 30px 4px rgba(45,78,255,0.15),
+              10px 10px 30px 4px rgba(45,78,255,0.15);
+}
+
+.settings {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: .5rem;
+    border-radius: 2%;
     height: 30%;
     width: 50%;
     background-color: #f0f0f0;
@@ -56,15 +67,15 @@ h1 {
               10px 10px 30px 4px rgba(45,78,255,0.15);
 }
 
-.container > * {
+.settings > * {
     width: 90%;
 }
 
-.container__text {
+.settings__text {
     margin: 1rem;
 }
 
-.container__input {
+.settings__input {
     display: flex;
     flex-direction: column;
 }
