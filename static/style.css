@@ -33,7 +33,7 @@ h1 {
     width: 100vw;
 }
 
-.sidebar-left {
+.container-left {
     margin-top: 10rem;
     position: relative;
     display: flex;
@@ -44,10 +44,18 @@ h1 {
     width: 30vw;
 }
 
-.sidebar-right {
-    margin: 8rem 15rem;
-    height: 80%;
-    width: 50%;
+.container-right {
+    margin-left: 10rem;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table {
+    height: 70%;
+    width: 70%;
     background-color: #f0f0f0;
     border-radius: 2%;
     box-shadow: -10px -10px 30px 4px rgba(45,78,255,0.15),

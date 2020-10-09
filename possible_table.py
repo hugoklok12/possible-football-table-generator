@@ -19,23 +19,6 @@ def send_request(endpoint):
     response = json.loads(connection.getresponse().read().decode())
     return response
 
-def start_program(arguments):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('league_id', type=int)
-    parser.add_argument('matchday', type=int)
-    args = parser.parse_args()
-
-    if args.league_id is 1:
-        league_id = 2021
-    elif args.league_id is 2:
-        league_id = 2013
-    else:
-        league_id = 2021
-
-    arguments.append(args.matchday)
-    arguments.append(league_id)
-    return arguments
-
 def get_complete_table(league_id):
     response = send_request(f'competitions/{league_id}/standings?standingType=HOME')
     complete_table = response['standings'][0]['table']
@@ -50,11 +33,7 @@ def get_matchups(matchday, league_id):
         matchups.append(matchup)
     return matchups
 
-def Main():
-    arguments = []
-    arguments = start_program(arguments)
-    matchday = arguments[0]
-    league_id = arguments[1]
+def calculate_tables(league_id, matchday):
     matchups = get_matchups(matchday, league_id)
     complete_table = get_complete_table(league_id)
 
@@ -131,14 +110,7 @@ def Main():
         print('Low: ' + str(high_lows[2]))
         print('---------------------')
 
-    # write data to local json file on disk
-    with open('table_data.json', 'w', encoding='utf-8') as f:
-        json.dump(team_high_lows, f, ensure_ascii=False, indent=4)
-
-    # open html file with possible tables data
-    absolute_path = os.path.dirname(__file__)
-    url = os.path.join(absolute_path, 'index.html')
-    webbrowser.open_new(url)
+    return team_high_lows
 
 if __name__ == '__main__':
     Main()

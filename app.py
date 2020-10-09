@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for
 from flask_api import FlaskAPI, status, exceptions
+from possible_table import calculate_tables
 import json
 
 app = Flask(__name__)
@@ -20,12 +21,9 @@ def create_table(league_id, matchday):
     if request.method != 'GET':
         return '', status.HTTP_405_METHOD_NOT_ALLOWED
 
-    x = {
-        "league_id": league_id,
-        "matchday": matchday,
-    }
+    table = calculate_tables(league_id, matchday)
 
-    return x, status.HTTP_200_OK
+    return table, status.HTTP_200_OK
 
 if __name__ == '__main__':
     app.run()
