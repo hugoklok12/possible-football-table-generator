@@ -48,7 +48,7 @@ def calculate_tables(league_id, matchday):
     sorted_standings = sorted(current_standings.items(), key=lambda x: x[1], reverse=True)
     i = 0
     for key, team in sorted_standings:
-        team_high_lows[key] = [100, i, -100] # [high, current, low]
+        team_high_lows[key] = [100, (i + 1), -100] # [high, current, low]
         i += 1
 
     # generate all combinations of wins / draws / losses in 10 games (= one matchday) and fill with corresponding integers

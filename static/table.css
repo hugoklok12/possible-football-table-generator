@@ -1,0 +1,11 @@
+.table {
+    display: grid;
+    grid-template-columns: 10rem repeat(20, 1fr);
+    grid-template-rows: repeat(21, 1fr);
+}
+
+.table__item {
+    display: flex;
+    align-self: center;
+    justify-self: center;
+}

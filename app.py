@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, url_for
 from flask_api import FlaskAPI, status, exceptions
 from possible_table import calculate_tables
-import json
 
 app = Flask(__name__)
 
