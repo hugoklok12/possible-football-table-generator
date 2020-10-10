@@ -5,7 +5,16 @@
 }
 
 .table__item {
-    display: flex;
     align-self: center;
     justify-self: center;
+}
+
+.table__item-current {
+    align-self: center;
+    justify-self: center;
+    height: 80%;
+    width: 80%;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
 }

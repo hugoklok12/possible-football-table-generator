@@ -46,13 +46,18 @@ function fillTable(data) {
 
 // Fill one table row using the team name and the highest/current/lowest possible position
 function fillTableRow(teamName, high, current, low) {
-    // Create node for the header text of the team
+    // Fill node for the header text of the team
     let newTeamHeaderNode = document.createElement("span");
     newTeamHeaderNode.classList.add("table__item");
     newTeamHeaderNode.innerHTML = teamName;
     newTeamHeaderNode.style.gridColumn = "1 / 2";
-    // Second value of array in object is the team's current position
     newTeamHeaderNode.style.gridRow = `${current + 1} / ${current + 2}`;
-
     tableNode.appendChild(newTeamHeaderNode);
+
+    // Fill node of the current position
+    let newCurrentPositionNode = document.createElement("span");
+    newCurrentPositionNode.classList.add("table__item-current");
+    newCurrentPositionNode.style.gridRow = `${current + 1} / ${current + 2}`;
+    newCurrentPositionNode.style.gridColumn = `${current + 1} / ${current + 2}`;
+    tableNode.appendChild(newCurrentPositionNode);
 }
