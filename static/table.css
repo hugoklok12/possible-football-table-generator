@@ -1,20 +1,59 @@
 .table {
     display: grid;
-    grid-template-columns: 10rem repeat(20, 1fr);
-    grid-template-rows: repeat(21, 1fr);
+    grid-template-columns: 1fr repeat(20, 2rem);
+    grid-template-rows: repeat(21, 2rem);
+}
+
+.table__header {
+    align-self: center;
+    justify-self: center;
 }
 
 .table__item {
+    position: relative;
+    z-index: 1;
     align-self: center;
     justify-self: center;
 }
 
 .table__item-current {
-    align-self: center;
-    justify-self: center;
     height: 80%;
     width: 80%;
-    background-color: #bbb;
+    background-color: white;
     border-radius: 50%;
     display: inline-block;
+    border: 1px solid black;
+}
+
+.table__item-endtip {
+    height: 60%;
+    width: 60%;
+    background-color: blue;
+    border-radius: 50%;
+}
+
+.table__connector {
+    position: relative;
+    align-self: center;
+    z-index: 0;
+    background-color: blue;
+    opacity: 0.5;
+}
+
+.table__connector-middle {
+    height: 40%;
+    width: 100%;
+    justify-self: center;
+}
+
+.table__connector-left {
+    height: 40%;
+    width: 50%;
+    justify-self: left;
+}
+
+.table__connector-right {
+    height: 40%;
+    width: 50%;
+    justify-self: right;
 }

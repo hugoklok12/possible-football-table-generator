@@ -28,7 +28,7 @@ function fillTable(data) {
     // Fill static header numbers
     for (let i = 0; i < 20; i++) {
         let newHeaderNode = document.createElement("h1");
-        newHeaderNode.classList.add("table__item");
+        newHeaderNode.classList.add("table__header");
         newHeaderNode.innerHTML = i + 1;
         newHeaderNode.style.gridRow = "1 / 2";
         newHeaderNode.style.gridColumn = `${i + 2} / ${i + 3}`;
@@ -46,18 +46,79 @@ function fillTable(data) {
 
 // Fill one table row using the team name and the highest/current/lowest possible position
 function fillTableRow(teamName, high, current, low) {
-    // Fill node for the header text of the team
-    let newTeamHeaderNode = document.createElement("span");
-    newTeamHeaderNode.classList.add("table__item");
-    newTeamHeaderNode.innerHTML = teamName;
-    newTeamHeaderNode.style.gridColumn = "1 / 2";
-    newTeamHeaderNode.style.gridRow = `${current + 1} / ${current + 2}`;
-    tableNode.appendChild(newTeamHeaderNode);
+    // Fill node for the team name
+    let headerGridArea = `${current + 1} / 1 / ${current + 2} / 2`;
+    let headerNode = fillTableCell("header", headerGridArea);
+    headerNode.innerHTML = teamName;
 
     // Fill node of the current position
-    let newCurrentPositionNode = document.createElement("span");
-    newCurrentPositionNode.classList.add("table__item-current");
-    newCurrentPositionNode.style.gridRow = `${current + 1} / ${current + 2}`;
-    newCurrentPositionNode.style.gridColumn = `${current + 1} / ${current + 2}`;
-    tableNode.appendChild(newCurrentPositionNode);
+    let currentPositionGridArea = `${current + 1} / ${current + 1} / 
+                                   ${current + 2} / ${current + 2}`
+    fillTableCell("current", currentPositionGridArea);
+
+    // Prevent doubled dots by comparing for same position values
+    if (high !== current) {
+        // Fill node of the highest position
+        let highPositionGridArea = `${current + 1} / ${high + 1} / 
+                                    ${current + 2} / ${high + 2}`
+        fillTableCell("endtip", highPositionGridArea);
+    }
+
+    // Prevent doubled dots by comparing for same position values
+    if (low !== current) {
+        // Fill node of the lowest position
+        let lowPositionGridArea = `${current + 1} / ${low + 1} / 
+                                   ${current + 2} / ${low + 2}`
+        fillTableCell("endtip", lowPositionGridArea);
+    }
+
+    /* Check there if is a difference between the low and high to decide 
+       if a connector is needed */
+    if (low !== high) {
+        // Fill node with a light blue bar to connect the low and highest position 
+        let connectorGridArea = `${current + 1} / ${high + 2} / 
+                                 ${current + 2} / ${low + 1}`;
+        fillTableCell("connector-middle", connectorGridArea);
+    }
+
+}
+
+// Fill one table cell
+function fillTableCell(nodeType, gridArea) {
+    let newCellNode = document.createElement("div");
+
+    // Add classes to the node based on given node type
+    switch (nodeType) {
+        case "header":
+            newCellNode.classList.add("table__header");
+            break;
+        case "current":
+            newCellNode.classList.add("table__item");
+            newCellNode.classList.add("table__item-current");
+            break;
+        case "endtip":
+            newCellNode.classList.add("table__item");
+            newCellNode.classList.add("table__item-endtip");
+            break;
+        case "connector-middle":
+            newCellNode.classList.add("table__connector");
+            newCellNode.classList.add("table__connector-middle");
+            break;
+        case "connector-left":
+            newCellNode.classList.add("table__connector");
+            newCellNode.classList.add("table__connector-left");
+            break;
+        case "connector-right":
+            newCellNode.classList.add("table__connector");
+            newCellNode.classList.add("table__connector-right");
+            break;
+        default:
+            console.log("The supplied node type is not valid")
+            return;
+    }
+
+    newCellNode.style.gridArea = gridArea;
+    tableNode.appendChild(newCellNode);
+
+    return newCellNode;
 }
