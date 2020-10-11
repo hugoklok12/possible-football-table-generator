@@ -5,6 +5,8 @@
 }
 
 .table__header {
+    position: relative;
+    z-index: 1;
     align-self: center;
     justify-self: center;
 }
@@ -59,5 +61,14 @@
 }
 
 .table__separator {
+    z-index: 1;
     border-right: 1px dashed black;
+}
+
+.table__background {
+    position: relative;
+    z-index: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #fff;
 }

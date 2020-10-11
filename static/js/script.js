@@ -8,9 +8,9 @@ function fetchData() {
 
     console.log(`League id is ${league_id} and matchday is ${matchday}`);
 
-    // Check if both are actually a number
+    // Check if both are actually a number before creating the table
     if (!Number.isInteger(league_id) || !Number.isInteger(matchday)) {
-        // Fetch data from API
+        // Fetch data from back-end Flask API
         fetch(window.location.href + 'api/new/' + league_id + '/' + matchday)
             .then(response => response.json())
             .then(responseJson => {
@@ -39,6 +39,12 @@ function fillTable(data) {
         let headerNumberNode = fillTableCell('header', headerGridArea);
         headerNumberNode.innerHTML = i + 1;
         headerNumberNode.style.fontWeight = 'bold';
+
+        // Add background color every other column to improve visibility
+        if (i % 2 !== 0) {
+            let backgroundGridArea = `1 / ${i + 1} / -1 / ${i + 2}`;
+            fillTableCell('background', backgroundGridArea);
+        }
 
         // Add border separators between position 4/5 and 17/18
         if (i === 4 || i === 17) {
@@ -92,7 +98,7 @@ function fillTableRow(teamName, high, current, low) {
 
     /* Check if there's a gap more than 1 between the low and high to decide 
        if a complete connector node is needed */
-    if ((low - high) > 1) {
+    if ((low - high) > 0) {
         // Fill light blue barnode to connect the low and highest position 
         let connectorGridArea = `${current + 1} / ${high + 2} / 
                                  ${current + 2} / ${low + 1}`;
@@ -131,6 +137,9 @@ function fillTableCell(nodeType, gridArea) {
             break;
         case 'separator':
             newCellNode.classList.add('table__separator');
+            break;
+        case 'background':
+            newCellNode.classList.add('table__background');
             break;
         default:
             console.log('The supplied node type is not valid');
