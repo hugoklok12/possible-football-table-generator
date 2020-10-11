@@ -57,3 +57,7 @@
     width: 50%;
     justify-self: right;
 }
+
+.table__separator {
+    border-right: 1px dashed black;
+}

@@ -32,13 +32,22 @@ function fillTable(data) {
         }
     }
 
-    // Fill static header numbers
+    // Loop through columns in grid
     for (let i = 0; i < 20; i++) {
+        // Fill static header numbers on top of the table
         let headerGridArea = `1 / ${i + 2} / 2 / ${i + 3}`;
         let headerNumberNode = fillTableCell('header', headerGridArea);
         headerNumberNode.innerHTML = i + 1;
         headerNumberNode.style.fontWeight = 'bold';
+
+        // Add border separators between position 4/5 and 17/18
+        if (i === 4 || i === 17) {
+            let separatorGridArea = `1 / ${i + 1} / -1 / ${i + 2}`;
+            separatorGridArea = fillTableCell('separator', separatorGridArea);
+        }
     }
+
+
 
     // Fill table rows with data of every team
     for (const team in data) {
@@ -50,43 +59,45 @@ function fillTable(data) {
 
 // Fill one table row using the team name and the highest/current/lowest possible position
 function fillTableRow(teamName, high, current, low) {
-    // Fill node for the team name
+    // Fill text node for the team name
     let headerGridArea = `${current + 1} / 1 / ${current + 2} / 2`;
     let headerNode = fillTableCell('header', headerGridArea);
     headerNode.innerHTML = teamName;
 
-    // Fill node of the current position
+    // Fill dot node of the team's current position
     let currentPositionGridArea = `${current + 1} / ${current + 1} / 
                                    ${current + 2} / ${current + 2}`
     fillTableCell('current', currentPositionGridArea);
 
-    // Prevent doubled dots by comparing for same position values
+
+    // Define grid area of the 'high' node
+    let highPositionGridArea = `${current + 1} / ${high + 1} / 
+                                ${current + 2} / ${high + 2}`;
+    fillTableCell('connector-right', highPositionGridArea);
+    // Only place 'high' dot if it's higher than the current position
     if (high !== current) {
-        // Fill node of the highest position
-        let highPositionGridArea = `${current + 1} / ${high + 1} / 
-                                    ${current + 2} / ${high + 2}`;
         fillTableCell('endtip', highPositionGridArea);
-        fillTableCell('connector-right', highPositionGridArea);
     }
 
-    // Prevent doubled dots by comparing for same position values
+
+    // Define grid area of the 'low' node
+    let lowPositionGridArea = `${current + 1} / ${low + 1} / 
+                               ${current + 2} / ${low + 2}`;
+    fillTableCell('connector-left', lowPositionGridArea);
+    // Only place 'low' dot if it's higher than the current position
     if (low !== current) {
-        // Fill node of the lowest position
-        let lowPositionGridArea = `${current + 1} / ${low + 1} / 
-                                   ${current + 2} / ${low + 2}`;
         fillTableCell('endtip', lowPositionGridArea);
-        fillTableCell('connector-left', lowPositionGridArea);
     }
 
-    /* Check there if is a difference between the low and high to decide 
-       if a connector is needed */
-    if (low !== high) {
-        // Fill node with a light blue bar to connect the low and highest position 
+
+    /* Check if there's a gap more than 1 between the low and high to decide 
+       if a complete connector node is needed */
+    if ((low - high) > 1) {
+        // Fill light blue barnode to connect the low and highest position 
         let connectorGridArea = `${current + 1} / ${high + 2} / 
                                  ${current + 2} / ${low + 1}`;
         fillTableCell('connector-middle', connectorGridArea);
     }
-
 }
 
 // Fill one table cell
@@ -117,6 +128,9 @@ function fillTableCell(nodeType, gridArea) {
         case 'connector-right':
             newCellNode.classList.add('table__connector');
             newCellNode.classList.add('table__connector-right');
+            break;
+        case 'separator':
+            newCellNode.classList.add('table__separator');
             break;
         default:
             console.log('The supplied node type is not valid');
