@@ -5,10 +5,9 @@ const tableNode = document.querySelector('.table');
 function fetchData() {
     const league_id = document.querySelector('.input__league').value;
     const matchday = document.querySelector('.input__matchday').value;
-
     console.log(`League id is ${league_id} and matchday is ${matchday}`);
 
-    // Check if both are actually a number before creating the table
+    // Check if both are actually a number before fetching the data
     if (!Number.isInteger(league_id) || !Number.isInteger(matchday)) {
         // Fetch data from back-end Flask API
         fetch(window.location.href + 'api/new/' + league_id + '/' + matchday)
@@ -53,8 +52,6 @@ function fillTable(data) {
         }
     }
 
-
-
     // Fill table rows with data of every team
     for (const team in data) {
         if (data.hasOwnProperty(team)) {
@@ -75,8 +72,6 @@ function fillTableRow(teamName, high, current, low) {
                                    ${current + 2} / ${current + 2}`
     fillTableCell('current', currentPositionGridArea);
 
-
-    // Define grid area of the 'high' node
     let highPositionGridArea = `${current + 1} / ${high + 1} / 
                                 ${current + 2} / ${high + 2}`;
     fillTableCell('connector-right', highPositionGridArea);
@@ -85,8 +80,6 @@ function fillTableRow(teamName, high, current, low) {
         fillTableCell('endtip', highPositionGridArea);
     }
 
-
-    // Define grid area of the 'low' node
     let lowPositionGridArea = `${current + 1} / ${low + 1} / 
                                ${current + 2} / ${low + 2}`;
     fillTableCell('connector-left', lowPositionGridArea);
@@ -96,7 +89,7 @@ function fillTableRow(teamName, high, current, low) {
     }
 
 
-    /* Check if there's a gap more than 1 between the low and high to decide 
+    /* Check if there's a gap more than 0 between the low and high to decide 
        if a complete connector node is needed */
     if ((low - high) > 0) {
         // Fill light blue barnode to connect the low and highest position 
@@ -110,7 +103,6 @@ function fillTableRow(teamName, high, current, low) {
 function fillTableCell(nodeType, gridArea) {
     let newCellNode = document.createElement('div');
 
-    // Add classes to the node based on given node type
     switch (nodeType) {
         case 'header':
             newCellNode.classList.add('table__header');
