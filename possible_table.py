@@ -42,7 +42,6 @@ def calculate_tables(league_id, matchday):
     for team in complete_table:
         current_standings[team['team']['name']] = team['points']
     
-    
     # sort dict and fill high/low placeholders + current position
     team_high_lows = {}
     sorted_standings = sorted(current_standings.items(), key=lambda x: x[1], reverse=True)
@@ -79,12 +78,6 @@ def calculate_tables(league_id, matchday):
         all_possible_tables.append(possible_table)
     print('All possible tables created.')
 
-    # fill excel sheet with all possible point counts to enhance debugging
-    print('Creating excel sheet of all possible points...')
-    # pd.DataFrame(all_possible_tables).to_excel('~/Downloads/all_possible_points.xlsx', header=False, index=False)
-    print('Excel sheet succesfully created')
-
-    # sort all all possible tables
     print('Sorting all tables and defining high/low per team...')
     i = 0
     for possible_table in all_possible_tables:
@@ -101,15 +94,7 @@ def calculate_tables(league_id, matchday):
         i += 1
     print('Done defining high/low.')
 
-    print('Results:')
-    print('---------------------')
-    for key, high_lows in team_high_lows.items():
-        print('Team: ' + str(key))
-        print('Current: ' + str(high_lows[1]))
-        print('High: ' + str(high_lows[0]))
-        print('Low: ' + str(high_lows[2]))
-        print('---------------------')
-
+    print('Returning results.')
     return team_high_lows
 
 if __name__ == '__main__':
