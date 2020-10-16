@@ -15,12 +15,12 @@ def index():
 """
 Create table based on input data
 """
-@app.route('/api/new/<int:league_id>/<int:matchday>', methods=['GET'])
-def create_table(league_id, matchday):
+@app.route('/api/new/<int:league_id>', methods=['GET'])
+def create_table(league_id):
     if request.method != 'GET':
         return '', status.HTTP_405_METHOD_NOT_ALLOWED
 
-    table = calculate_tables(league_id, matchday)
+    table = calculate_tables(league_id)
 
     return table, status.HTTP_200_OK
 

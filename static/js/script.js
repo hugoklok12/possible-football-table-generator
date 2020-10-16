@@ -4,20 +4,15 @@ const tableNode = document.querySelector('.table');
 // Fetch the table from the back end API
 function fetchData() {
     const league_id = document.querySelector('.input__league').value;
-    const matchday = document.querySelector('.input__matchday').value;
-    console.log(`League id is ${league_id} and matchday is ${matchday}`);
+    console.log(`League id is ${league_id}`);
 
-    // Check if both are actually a number before fetching the data
-    if (!Number.isInteger(league_id) || !Number.isInteger(matchday)) {
-        // Fetch data from back-end Flask API
-        fetch(window.location.href + 'api/new/' + league_id + '/' + matchday)
-            .then(response => response.json())
-            .then(responseJson => {
-                fillTable(responseJson)
-            });
-    } else {
-        alert('Please make sure the matchday is a number')
-    }
+    // Fetch data from back-end
+    fetch(window.location.href + 'api/new/' + league_id)
+        .then(response => response.json())
+        .then(responseJson => {
+            fillTable(responseJson);
+        });
+
 }
 
 // Generate table using the retrieved json data

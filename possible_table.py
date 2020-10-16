@@ -22,7 +22,8 @@ def send_request(endpoint):
 def get_complete_table(league_id):
     response = send_request(f'competitions/{league_id}/standings?standingType=HOME')
     complete_table = response['standings'][0]['table']
-    return complete_table
+    matchday = response['season']['currentMatchday']
+    return complete_table, matchday
 
 def get_matchups(matchday, league_id):
     response = send_request(f'competitions/{league_id}/matches?matchday={matchday}')
@@ -33,9 +34,9 @@ def get_matchups(matchday, league_id):
         matchups.append(matchup)
     return matchups
 
-def calculate_tables(league_id, matchday):
+def calculate_tables(league_id):
+    complete_table, matchday = get_complete_table(league_id)
     matchups = get_matchups(matchday, league_id)
-    complete_table = get_complete_table(league_id)
 
     # create dict with only the name and current point count
     current_standings = {}
