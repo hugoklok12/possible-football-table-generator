@@ -20,83 +20,96 @@ def send_request(endpoint):
     return response
 
 def get_complete_table(league_id):
-    response = send_request(f'competitions/{league_id}/standings?standingType=HOME')
+    response = send_request(f'competitions/{league_id}/standings')
     complete_table = response['standings'][0]['table']
     matchday = response['season']['currentMatchday']
     return complete_table, matchday
 
 def get_matchups(matchday, league_id):
     response = send_request(f'competitions/{league_id}/matches?matchday={matchday}')
-    matchday_matches = response['matches']
-    matchups = []
-    for match in matchday_matches:
-        matchup = [match['homeTeam']['name'], match['awayTeam']['name']]
-        matchups.append(matchup)
-    return matchups
+    all_matchup_data = response['matches']
+
+    # filter out all the matchup data except the home and away team
+    filtered_matchups = []
+    for match in all_matchup_data:
+        filtered_matchup = {
+            'homeTeam': match['homeTeam']['name'],
+            'awayTeam': match['awayTeam']['name']
+        }
+        filtered_matchups.append(filtered_matchup)
+    return filtered_matchups
+
+def get_opponent(matchups, team_name):
+    for matchup in matchups:
+        if matchup['homeTeam'] == team_name:
+            return matchup['awayTeam']
+        elif matchup['awayTeam'] == team_name:
+            return matchup['homeTeam']
 
 def calculate_tables(league_id):
     complete_table, matchday = get_complete_table(league_id)
     matchups = get_matchups(matchday, league_id)
 
-    # create dict with only the name and current point count
-    current_standings = {}
-    for team in complete_table:
-        current_standings[team['team']['name']] = team['points']
+    # filter out redundant team stats and add new stats
+    all_filtered_team_data = {}
+    for team_data in complete_table:
+        filtered_team_data = {
+            'currentPoints': team_data['points'],
+            'nextOpponent': get_opponent(matchups, team_data['team']['name']),
+            'goalDifference': team_data['goalDifference'],
+            'trailingGames': ((matchday - 1) - team_data['playedGames']),
+            'currentPosition': team_data['position'],
+            'highestPossiblePos': team_data['position'],
+            'lowestPossiblePos': team_data['position'],
+            'currentForm': team_data['form']
+        }
+        all_filtered_team_data[team_data['team']['name']] = filtered_team_data
     
-    # sort dict and fill high/low placeholders + current position
-    team_high_lows = {}
-    sorted_standings = sorted(current_standings.items(), key=lambda x: x[1], reverse=True)
-    i = 0
-    for key, team in sorted_standings:
-        team_high_lows[key] = [100, (i + 1), -100] # [high, current, low]
-        i += 1
-
-    # generate all combinations of wins / draws / losses in 10 games (= one matchday) and fill with corresponding integers
-    all_possible_results = itertools.product(range(3), repeat=10)
-    all_possible_tables = []
-
+    # generate all combinations of wins / draws / losses in 10 games (= one matchday) 
+    # and fill with corresponding integers
     print('Calculating all possible tables...')
-    # loop through every matchup and calculate points using brute force (n = 3^10 = 59049)
-    for results in all_possible_results:
-        possible_table = {}
+    all_possible_results = itertools.product(range(3), repeat=10) # (n = 3^10 = 59049)
+
+    all_possible_tables = []
+    for possible_results in all_possible_results:
+        possible_table = []
         i = 0
-        for result in results:
-            # home team wins
-            if result is 0:
-                possible_table[matchups[i][0]] = current_standings[matchups[i][0]] + 3
-                possible_table[matchups[i][1]] = current_standings[matchups[i][1]]
-            # away team wins
-            elif result is 1:
-                possible_table[matchups[i][1]] = current_standings[matchups[i][1]] + 3
-                possible_table[matchups[i][0]] = current_standings[matchups[i][0]]
-            # no team wins (draw)
-            elif result is 2:
-                possible_table[matchups[i][0]] = current_standings[matchups[i][0]] + 1
-                possible_table[matchups[i][1]] = current_standings[matchups[i][1]] + 1
-            else:
-                print('Something went wrong while processing possible tables')
+        for possible_result in possible_results:
+            home_team_result = [all_filtered_team_data[matchups[i]['homeTeam']]['goalDifference'], matchups[i]['homeTeam']]
+            away_team_result = [all_filtered_team_data[matchups[i]['homeTeam']]['goalDifference'], matchups[i]['awayTeam']]
+            # home team won
+            if possible_result == 0:
+                home_team_result.insert(0, (all_filtered_team_data[matchups[i]['homeTeam']]['currentPoints'] + 3))
+                away_team_result.insert(0, (all_filtered_team_data[matchups[i]['awayTeam']]['currentPoints']))
+            # away team won
+            elif possible_result == 1:
+                away_team_result.insert(0, (all_filtered_team_data[matchups[i]['awayTeam']]['currentPoints'] + 3))
+                home_team_result.insert(0, (all_filtered_team_data[matchups[i]['homeTeam']]['currentPoints']))
+            # no team won (draw)
+            elif possible_result == 2:
+                home_team_result.insert(0, (all_filtered_team_data[matchups[i]['homeTeam']]['currentPoints'] + 1))
+                away_team_result.insert(0, (all_filtered_team_data[matchups[i]['awayTeam']]['currentPoints'] + 1))
+            possible_table.append(home_team_result)
+            possible_table.append(away_team_result)
             i += 1
         all_possible_tables.append(possible_table)
     print('All possible tables created.')
 
     print('Sorting all tables and defining high/low per team...')
-    i = 0
+    # i = 0
     for possible_table in all_possible_tables:
-        possible_table = sorted(possible_table.items(), key=lambda x: x[1], reverse=True)
-        j = 1
-        for key, table_position in possible_table:
-            # check for new high
-            if j < team_high_lows[key][0]:
-                team_high_lows[key][0] = j
-            # check for new low
-            elif j > team_high_lows[key][2]:
-                team_high_lows[key][2] = j
-            j += 1
-        i += 1
-    print('Done defining high/low.')
+        # sort by points -> if points are the same then sort the same ones by goal difference
+        possible_table = sorted(possible_table, key=lambda sl: (-sl[0],-sl[1]))
+
+        i = 1
+        for team in possible_table:
+            if i < all_filtered_team_data[team[2]]['highestPossiblePos']:
+                all_filtered_team_data[team[2]]['highestPossiblePos'] = i
+            if i > all_filtered_team_data[team[2]]['lowestPossiblePos']:
+                all_filtered_team_data[team[2]]['lowestPossiblePos'] = i
+            i += 1
 
     print('Returning results.')
-    return team_high_lows
-
-if __name__ == '__main__':
-    Main()
+    table_data = { 'matchday': matchday, 
+                   'data': all_filtered_team_data }
+    return table_data
