@@ -1,7 +1,7 @@
 # possible-football-table-generator
 Script that displays all possible changes in the standings table after a played gameweek
 
-## Installation:
+## Installation
 ```
 pip install python-dotenv pandas openpyxl flask
 ```
