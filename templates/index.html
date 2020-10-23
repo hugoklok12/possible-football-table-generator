@@ -10,22 +10,21 @@
 <body>
     <div class="background-diagonal"></div>
     <div class="wrapper">
-        <section class="container-left">
-            <div class="settings">
-                <h1 class="settings__text">Settings</h1>
-                <div class="settings__input">
-                    <select class="input input__league">
-                        <option value="2021">Premier League</option>
-                        <option value="2013">Série A</option>
-                    </select>
-                </div>
-                <div class="button">
-                    <span>View Table</span>
-                </div>
+        <section class="settings">
+            <h1 class="settings__text">Choose a league</h1>
+            <div class="settings__input">
+                <select class="input input__league">
+                    <option value="2021">Premier League</option>
+                    <option value="2013">Série A</option>
+                </select>
+            </div>
+            <div class="button">
+                <span>View Table</span>
             </div>
         </section>
-        <section class="container-right">
-            <div class="table"></div>
+        <section class="table">
+            <div class="table__stats-grid"></div>
+            <div class="table__data-grid"></div>
         </section>
     </div>
     <script src="{{ url_for('static', filename='js/script.js', type='text/javascript') }}"></script>

@@ -57,11 +57,11 @@ def calculate_tables(league_id):
             'currentPoints': team_data['points'],
             'nextOpponent': get_opponent(matchups, team_data['team']['name']),
             'goalDifference': team_data['goalDifference'],
-            'trailingGames': ((matchday - 1) - team_data['playedGames']),
+            'playedGames': team_data['playedGames'],
             'currentPosition': team_data['position'],
             'highestPossiblePos': team_data['position'],
             'lowestPossiblePos': team_data['position'],
-            'currentForm': team_data['form']
+            'currentForm': team_data['form'].replace(",", "")
         }
         all_filtered_team_data[team_data['team']['name']] = filtered_team_data
     
@@ -96,7 +96,6 @@ def calculate_tables(league_id):
     print('All possible tables created.')
 
     print('Sorting all tables and defining high/low per team...')
-    # i = 0
     for possible_table in all_possible_tables:
         # sort by points -> if points are the same then sort the same ones by goal difference
         possible_table = sorted(possible_table, key=lambda sl: (-sl[0],-sl[1]))
