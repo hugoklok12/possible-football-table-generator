@@ -136,32 +136,30 @@ function fillDataRow(team, name) {
     const currentPositionGridArea = `${team.currentPosition + 1} / ${team.currentPosition} / 
                                      ${team.currentPosition + 1} / ${team.currentPosition}`;
     fillCellHandler('current', 'data', currentPositionGridArea);
-    return;
 
-    const highPositionGridArea = `${current + 1} / ${high + 1} / 
-                                ${current + 2} / ${high + 2}`;
-    fillCellHandler('connector-right', highPositionGridArea);
+    const highPositionGridArea = `${team.currentPosition + 1} / ${team.highestPossiblePos} / 
+                                  ${team.currentPosition + 2} / ${team.highestPossiblePos + 1}`;
+    fillCellHandler('connector-right', 'data', highPositionGridArea);
     // Only place 'high' dot if it's higher than the current position
-    if (high !== current) {
-        fillCellHandler('endtip', highPositionGridArea);
+    if (team.highestPossiblePos !== team.currentPosition) {
+        fillCellHandler('endtip', 'data', highPositionGridArea);
     }
 
-    const lowPositionGridArea = `${current + 1} / ${low + 1} / 
-                               ${current + 2} / ${low + 2}`;
-    fillCellHandler('connector-left', lowPositionGridArea);
+    const lowPositionGridArea = `${team.currentPosition + 1} / ${team.lowestPossiblePos} / 
+                                 ${team.currentPosition + 2} / ${team.lowestPossiblePos + 1}`;
+    fillCellHandler('connector-left', 'data', lowPositionGridArea);
     // Only place 'low' dot if it's higher than the current position
-    if (low !== current) {
-        fillCellHandler('endtip', lowPositionGridArea);
+    if (team.lowestPossiblePos !== team.currentPosition) {
+        fillCellHandler('endtip', 'data', lowPositionGridArea);
     }
-
 
     /* Check if there's a gap more than 0 between the low and high to decide 
-       if a complete connector node is needed */
-    if ((low - high) > 0) {
+    if a complete connector node is needed */
+    if ((team.lowestPossiblePos - team.highestPossiblePos) > 0) {
         // Fill light blue barnode to connect the low and highest position 
-        let connectorGridArea = `${current + 1} / ${high + 2} / 
-                                 ${current + 2} / ${low + 1}`;
-        fillCellHandler('connector-middle', connectorGridArea);
+        let connectorGridArea = `${team.currentPosition + 1} / ${team.highestPossiblePos + 1} / 
+                                 ${team.currentPosition + 2} / ${team.lowestPossiblePos}`;
+        fillCellHandler('connector-middle', 'data', connectorGridArea);
     }
 }
 

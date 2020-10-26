@@ -80,17 +80,17 @@
 }
 
 .table__item-current {
-    height: 2em;
-    width: 2em;
+    height: 1.5em;
+    width: 1.5em;
     background-color: white;
     border-radius: 50%;
     display: inline-block;
     border: 1px solid black;
 }
-/*
+
 .table__item-endtip {
-    height: 60%;
-    width: 60%;
+    height: 1.2em;
+    width: 1.2em;
     background-color: blue;
     border-radius: 50%;
 }
@@ -120,7 +120,6 @@
     width: 50%;
     justify-self: right;
 }
-*/
 
 .table__separator {
     z-index: 1;
