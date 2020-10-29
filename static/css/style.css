@@ -32,8 +32,9 @@ h1 {
 .wrapper {
     position: absolute;
     display: flex;
-    height: fit-content;
-    width: fit-content;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
     justify-content: center;
     align-items: center;
 }

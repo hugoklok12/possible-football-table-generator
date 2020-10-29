@@ -9,8 +9,6 @@ function fetchData() {
     const league_id = document.querySelector('.input__league').value;
     console.log(`League id is ${league_id}`);
 
-    settingsNode.style.visibility = 'hidden';
-
     // Fetch data
     fetch(window.location.href + 'api/new/' + league_id)
         .then(response => response.json())
@@ -222,5 +220,3 @@ function fillCellHandler(nodeType, grid, gridArea) {
 
     return newCellNode;
 }
-
-fetchData();
