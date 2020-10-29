@@ -26,7 +26,7 @@ def get_complete_table(league_id):
     return complete_table, matchday
 
 def get_matchups(matchday, league_id):
-    response = send_request(f'competitions/{league_id}/matches?matchday=6')
+    response = send_request(f'competitions/{league_id}/matches?matchday={matchday}')
     all_matchup_data = response['matches']
 
     # filter out all the matchup data except the home and away team

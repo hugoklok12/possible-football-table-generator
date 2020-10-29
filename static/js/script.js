@@ -7,7 +7,6 @@ const settingsNode = document.querySelector('.settings');
 // Fetch the table from the back end API
 function fetchData() {
     const league_id = document.querySelector('.input__league').value;
-    console.log(`League id is ${league_id}`);
 
     // Fetch data
     fetch(window.location.href + 'api/new/' + league_id)
