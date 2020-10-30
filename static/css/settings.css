@@ -60,3 +60,32 @@
 .button:hover {
     background-color: #796edd;
 }
+
+
+#spinner {
+    visibility: hidden;
+    width: 5rem;
+    height: 5rem;
+    border: 2px solid #f3f3f3;
+    border-top: 3px solid #796edd;
+    border-radius: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    animation: spin 1s infinite linear;
+    box-shadow: -10px -10px 30px 4px white;
+}
+  
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    } to {
+        transform: rotate(360deg);
+    }
+}
+
+  
+  

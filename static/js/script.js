@@ -8,10 +8,12 @@ const settingsNode = document.querySelector('.settings');
 function fetchData() {
     const league_id = document.querySelector('.input__league').value;
 
+    showSpinner(true)
     // Fetch data
     fetch(window.location.href + 'api/new/' + league_id)
         .then(response => response.json())
         .then(responseJson => {
+            showSpinner(false)
             fillTable(responseJson);
         });
 }
@@ -218,4 +220,18 @@ function fillCellHandler(nodeType, grid, gridArea) {
 
 
     return newCellNode;
+}
+
+function showSpinner(state) {
+    const spinner = document.getElementById('spinner');
+    if (state) {
+        spinner.style.visibility = 'visible';
+    } else if (!state) {
+        spinner.style.visibility = 'hidden';
+    } else {
+        console.log('Invalid spinner state was given');
+    }
+    // setTimeout(() => {
+    // spinner.className = spinner.className.replace('show', '');
+    // }, 5000);
 }
