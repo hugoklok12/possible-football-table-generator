@@ -101,62 +101,61 @@ function prepareTable(matchday) {
 
 // Fill one table row using the team's data
 function fillDataRow(team, name) {
-    // Fill text node for the team name
+    /* FILL STATISTICAL NODES */
     const teamNameGridArea = `${team.currentPosition + 1} / 1 / ${team.currentPosition + 2} / 2`;
+    const formGridArea = `${team.currentPosition + 1} / 2 / ${team.currentPosition + 2} / 3`;
+    const pointsGridArea = `${team.currentPosition + 1} / 3 / ${team.currentPosition + 2} / 3`;
+    const goalDiffGridArea = `${team.currentPosition + 1} / 4 / ${team.currentPosition + 2} / 4`;
+    const playedGamesGridArea = `${team.currentPosition + 1} / 5 / ${team.currentPosition + 2} / 5`;
+    const opponentGridArea = `${team.currentPosition + 1} / 6 / ${team.currentPosition + 2} / 6`;
+
     let teamNameNode = fillCellHandler('team-name', 'stats', teamNameGridArea);
     teamNameNode.innerHTML = name;
 
-    // Fill text node of the team's form
-    const formGridArea = `${team.currentPosition + 1} / 2 / ${team.currentPosition + 2} / 3`;
     let formNode = fillCellHandler('form', 'stats', formGridArea);
     formNode.innerHTML = team.currentForm;
 
-    // Fill text node for the team's points
-    const pointsGridArea = `${team.currentPosition + 1} / 3 / ${team.currentPosition + 2} / 3`;
     let pointsNode = fillCellHandler('points', 'stats', pointsGridArea);
     pointsNode.innerHTML = team.currentPoints;
 
-    // Fill text node for the team's goal difference
-    const goalDiffGridArea = `${team.currentPosition + 1} / 4 / ${team.currentPosition + 2} / 4`;
     let goalDiffNode = fillCellHandler('goaldiff', 'stats', goalDiffGridArea);
     goalDiffNode.innerHTML = team.goalDifference;
 
-    // Fill text node for the team's amount of playes games
-    const playedGamesGridArea = `${team.currentPosition + 1} / 5 / ${team.currentPosition + 2} / 5`;
     let playedGamesNode = fillCellHandler('playedgames', 'stats', playedGamesGridArea);
     playedGamesNode.innerHTML = team.playedGames;
 
-    // Fill text node for the team's next opponent
-    oopponentGridArea = `${team.currentPosition + 1} / 6 / ${team.currentPosition + 2} / 6`;
-    let opponentNode = fillCellHandler('opponent', 'stats', oopponentGridArea);
+    let opponentNode = fillCellHandler('opponent', 'stats', opponentGridArea);
     opponentNode.innerHTML = team.nextOpponent.substring(0, 3).toUpperCase();
 
-    // Fill dot node of the team's current position
+    /* FILL DATA NODES */
     const currentPositionGridArea = `${team.currentPosition + 1} / ${team.currentPosition} / 
                                      ${team.currentPosition + 1} / ${team.currentPosition}`;
-    fillCellHandler('current', 'data', currentPositionGridArea);
-
     const highPositionGridArea = `${team.currentPosition + 1} / ${team.highestPossiblePos} / 
                                   ${team.currentPosition + 2} / ${team.highestPossiblePos + 1}`;
-    fillCellHandler('connector-right', 'data', highPositionGridArea);
-    // Only place 'high' dot if it's higher than the current position
-    if (team.highestPossiblePos !== team.currentPosition) {
-        fillCellHandler('endtip', 'data', highPositionGridArea);
-    }
-
     const lowPositionGridArea = `${team.currentPosition + 1} / ${team.lowestPossiblePos} / 
                                  ${team.currentPosition + 2} / ${team.lowestPossiblePos + 1}`;
-    fillCellHandler('connector-left', 'data', lowPositionGridArea);
-    // Only place 'low' dot if it's higher than the current position
+
+    fillCellHandler('current', 'data', currentPositionGridArea);
+
+    if (team.highestPossiblePos !== team.currentPosition) {
+        fillCellHandler('endtip', 'data', highPositionGridArea);
+        fillCellHandler('connector-right', 'data', highPositionGridArea);
+        if (team.lowestPossiblePos === team.currentPosition) {
+            fillCellHandler('connector-left', 'data', currentPositionGridArea);
+        }
+    }
     if (team.lowestPossiblePos !== team.currentPosition) {
         fillCellHandler('endtip', 'data', lowPositionGridArea);
+        fillCellHandler('connector-left', 'data', lowPositionGridArea);
+        if (team.highestPossiblePos === team.currentPosition) {
+            fillCellHandler('connector-right', 'data', currentPositionGridArea);
+        }
     }
 
-    /* Check if there's a gap more than 0 between the low and high to decide 
-    if a complete connector node is needed */
-    if ((team.lowestPossiblePos - team.highestPossiblePos) > 0) {
-        // Fill light blue barnode to connect the low and highest position 
-        let connectorGridArea = `${team.currentPosition + 1} / ${team.highestPossiblePos + 1} / 
+    /* Check if there's enough of a gap between the low and high to decide 
+    if a middle connector node is needed */
+    if ((team.lowestPossiblePos - team.highestPossiblePos) >= 2) {
+        const connectorGridArea = `${team.currentPosition + 1} / ${team.highestPossiblePos + 1} / 
                                  ${team.currentPosition + 2} / ${team.lowestPossiblePos}`;
         fillCellHandler('connector-middle', 'data', connectorGridArea);
     }
