@@ -230,7 +230,4 @@ function showSpinner(state) {
     } else {
         console.log('Invalid spinner state was given');
     }
-    // setTimeout(() => {
-    // spinner.className = spinner.className.replace('show', '');
-    // }, 5000);
 }
