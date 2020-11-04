@@ -101,7 +101,7 @@ function prepareTable(matchday) {
 
 // Fill one table row using the team's data
 function fillDataRow(team, name) {
-    /* FILL STATISTICAL NODES */
+    /* FILL STATISTICAL CELLS */
     const teamNameGridArea = `${team.currentPosition + 1} / 1 / ${team.currentPosition + 2} / 2`;
     const formGridArea = `${team.currentPosition + 1} / 2 / ${team.currentPosition + 2} / 3`;
     const pointsGridArea = `${team.currentPosition + 1} / 3 / ${team.currentPosition + 2} / 3`;
@@ -127,7 +127,7 @@ function fillDataRow(team, name) {
     let opponentNode = fillCellHandler('opponent', 'stats', opponentGridArea);
     opponentNode.innerHTML = team.nextOpponent.substring(0, 3).toUpperCase();
 
-    /* FILL DATA NODES */
+    /* FILL DATA CELLS */
     const currentPositionGridArea = `${team.currentPosition + 1} / ${team.currentPosition} / 
                                      ${team.currentPosition + 1} / ${team.currentPosition}`;
     const highPositionGridArea = `${team.currentPosition + 1} / ${team.highestPossiblePos} / 
