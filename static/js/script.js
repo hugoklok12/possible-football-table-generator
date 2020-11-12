@@ -93,7 +93,7 @@ function prepareTable(matchday) {
 
         // Add border separators between position 4/5 and 17/18
         if (i === 4 || i === 17) {
-            let separatorGridArea = `1 / ${i} / -1 / ${i + 1}`;
+            const separatorGridArea = `1 / ${i} / -1 / ${i + 1}`;
             fillCellHandler('separator', 'data', separatorGridArea);
         }
     }
@@ -216,7 +216,6 @@ function fillCellHandler(nodeType, grid, gridArea) {
     } else {
         console.log('The grid type is invalid.');
     }
-
 
     return newCellNode;
 }
