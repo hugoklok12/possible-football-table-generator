@@ -1,5 +1,5 @@
 # possible-football-table-generator
-Script that displays all possible changes in the standings table after a played gameweek
+Web app that displays all possible changes in the standings table after a played gameweek
 
 ## Installation
 ```
