@@ -1,16 +1,32 @@
-document.querySelector('.button').addEventListener('click', fetchData);
+// Define constants
 const tableNode = document.querySelector('.table');
 const statsGridNode = document.querySelector('.table__stats-grid');
 const dataGridNode = document.querySelector('.table__data-grid');
 const settingsNode = document.querySelector('.settings');
+const buttonNode = document.querySelector('.button');
+const leagueNode = document.querySelector('.input__league');
+const matchdayNode = document.querySelector('.input__matchday');
+
+// Define event listeners
+buttonNode.addEventListener('click', fetchData);
+leagueNode.addEventListener('change', (event) => {
+    getCurrentMatchday(event.target.value);
+})
+
+// Get current matchday to preselect that matchday in matchday dropdown
+function getCurrentMatchday(league_id) {
+    fetch(window.location.href + 'api/matchday/current/' + league_id)
+        .then(response => response.json())
+        .then(responseJson => {
+            matchdayNode.value = responseJson.matchday;
+        });
+}
 
 // Fetch the table from the back end API
 function fetchData() {
-    const league_id = document.querySelector('.input__league').value;
 
     showSpinner(true)
-    // Fetch data
-    fetch(window.location.href + 'api/new/' + league_id)
+    fetch(`${window.location.href}/api/new/league/${leagueNode.value}/matchday/${matchdayNode.value}`)
         .then(response => response.json())
         .then(responseJson => {
             showSpinner(false)
@@ -230,3 +246,6 @@ function showSpinner(state) {
         console.log('Invalid spinner state was given');
     }
 }
+
+// Preselect matchday when loading page using the default id (Premier League)
+getCurrentMatchday(2021)

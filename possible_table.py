@@ -19,11 +19,15 @@ def send_request(endpoint):
     response = json.loads(connection.getresponse().read().decode())
     return response
 
+def get_current_matchday(league_id):
+    response = send_request(f'competitions/{league_id}/standings')
+    current_matchday = response['season']['currentMatchday']
+    return current_matchday
+
 def get_complete_table(league_id):
     response = send_request(f'competitions/{league_id}/standings')
     complete_table = response['standings'][0]['table']
-    matchday = response['season']['currentMatchday']
-    return complete_table, matchday
+    return complete_table
 
 def get_matchups(matchday, league_id):
     response = send_request(f'competitions/{league_id}/matches?matchday={matchday}')
@@ -46,8 +50,8 @@ def get_opponent(matchups, team_name):
         elif matchup['awayTeam'] == team_name:
             return matchup['homeTeam']
 
-def calculate_tables(league_id):
-    complete_table, matchday = get_complete_table(league_id)
+def calculate_tables(league_id, matchday):
+    complete_table = get_complete_table(league_id)
     matchups = get_matchups(matchday, league_id)
 
     # filter out redundant team stats and add new stats
