@@ -18,7 +18,7 @@ function getCurrentMatchday(league_id) {
     fetch(window.location.href + 'api/matchday/current/' + league_id)
         .then(response => response.json())
         .then(responseJson => {
-            matchdayNode.value = responseJson.matchday;
+            matchdayNode.val = responseJson.matchday;
         });
 }
 
@@ -26,7 +26,7 @@ function getCurrentMatchday(league_id) {
 function fetchData() {
 
     showSpinner(true)
-    fetch(`${window.location.href}/api/new/league/${leagueNode.value}/matchday/${matchdayNode.value}`)
+    fetch(`${window.location.href} /api/new / league / ${leagueNode.value} /matchday/${matchdayNode.value} `)
         .then(response => response.json())
         .then(responseJson => {
             showSpinner(false)
@@ -91,7 +91,7 @@ function prepareTable(matchday) {
     // Loop through columns in grid
     for (let i = 0; i < 20; i++) {
         // Fill static header numbers on top of the table
-        const headerNumberGridArea = `1 / ${i + 1} / 2 / ${i + 2}`;
+        const headerNumberGridArea = `1 / ${i + 1} / 2 / ${i + 2} `;
         const headerNumberNode = fillCellHandler('header-number', 'data', headerNumberGridArea);
         headerNumberNode.innerHTML = i + 1;
 
@@ -239,9 +239,9 @@ function fillCellHandler(nodeType, grid, gridArea) {
 function showSpinner(state) {
     const spinner = document.getElementById('spinner');
     if (state) {
-        spinner.style.visibility = 'visible';
+        spinner.style.display = 'block';
     } else if (!state) {
-        spinner.style.visibility = 'hidden';
+        spinner.style.display = 'none';
     } else {
         console.log('Invalid spinner state was given');
     }

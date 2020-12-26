@@ -63,7 +63,7 @@
 
 
 #spinner {
-    visibility: hidden;
+    display: none;
     width: 5rem;
     height: 5rem;
     border: 2px solid #f3f3f3;
