@@ -18,7 +18,7 @@ function getCurrentMatchday(league_id) {
     fetch(window.location.href + 'api/matchday/current/' + league_id)
         .then(response => response.json())
         .then(responseJson => {
-            matchdayNode.val = responseJson.matchday;
+            matchdayNode.value = responseJson.matchday;
         });
 }
 
@@ -26,7 +26,7 @@ function getCurrentMatchday(league_id) {
 function fetchData() {
 
     showSpinner(true)
-    fetch(`${window.location.href} /api/new / league / ${leagueNode.value} /matchday/${matchdayNode.value} `)
+    fetch(`${window.location.href}/api/new/league/${leagueNode.value}/matchday/${matchdayNode.value}`)
         .then(response => response.json())
         .then(responseJson => {
             showSpinner(false)
