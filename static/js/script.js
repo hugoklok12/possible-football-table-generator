@@ -24,7 +24,6 @@ function getCurrentMatchday(league_id) {
 
 // Fetch the table from the back end API
 function fetchData() {
-
     showSpinner(true)
     fetch(`${window.location.href}/api/new/league/${leagueNode.value}/matchday/${matchdayNode.value}`)
         .then(response => response.json())

@@ -7,6 +7,7 @@
     display: grid;
     grid-template-columns: max-content max-content;
     grid-template-rows: max-content;
+    align-self: left;
 }
 
 .table__stats-grid {
