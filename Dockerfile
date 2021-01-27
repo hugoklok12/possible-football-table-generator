@@ -1,6 +1,12 @@
-FROM python:alpine3.7 
-COPY . /app
-WORKDIR /app
-RUN pip install -r requirements.txt
-ENTRYPOINT [ "python" ] 
-CMD [ "app.py" ] 
+FROM python:3
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+RUN apt-get -y update
+RUN pip3 install -r requirements.txt
+
+EXPOSE 5001
+
+CMD [“python3”, “./app.py”]
