@@ -22,6 +22,6 @@ docker run -ti -p 5000:5000 possible-table-project bash
 
 ## Usage
 ``` 
-python app.py 
+python3 app.py 
 ```
 - Navigate to the shown url in a browser
