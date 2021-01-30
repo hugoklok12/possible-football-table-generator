@@ -18,14 +18,14 @@ function getCurrentMatchday(league_id) {
     fetch(window.location.href + 'api/matchday/current/' + league_id)
         .then(response => response.json())
         .then(responseJson => {
-            matchdayNode.value = responseJson.matchday;
+            matchdayNode.value = `Matchday ${responseJson.matchday}`;
         });
 }
 
 // Fetch the table from the back end API
 function fetchData() {
     showSpinner(true)
-    fetch(`${window.location.href}/api/new/league/${leagueNode.value}/matchday/${matchdayNode.value}`)
+    fetch(`${window.location.href}/api/new/league/${leagueNode.value}/matchday/${matchdayNode.value.split(' ')[1]}`)
         .then(response => response.json())
         .then(responseJson => {
             showSpinner(false)
